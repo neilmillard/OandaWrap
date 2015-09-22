@@ -635,12 +635,12 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 		//
 		//////////////////////////////////////////////////////////////////////////////////
 		
-		public function time_seconds($time) {
+		public static function time_seconds($time) {
             //Convert oanda time from microseconds to seconds
 			return floor($time/1000000);
 		}
 		
-		public function gran_seconds($gran) {
+		public static function gran_seconds($gran) {
             //Return a the number of seconds per Oandas 'granularity'
 			switch (strtoupper($gran)) {
             case 'S5': return 5;
@@ -1022,16 +1022,16 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 		//
 		//////////////////////////////////////////////////////////////////////////////////
 		
-		protected function candle_time_to_seconds($candle) {
+		protected static function candle_time_to_seconds($candle) {
             //Convert the timing of $candle from microseconds to seconds
-			$candle->time = $this->time_seconds($candle->time);
+			$candle->time = self::time_seconds($candle->time);
 			return $candle;
 		}
 		
 		protected function candles_times_to_seconds($candles) {
             //Convert the times of $candles from microseconds to seconds
 			if ($this->valid($candles))
-				$candles->candles = array_map('$this->candle_time_to_seconds', $candles->candles);
+				$candles->candles = array_map('self::candle_time_to_seconds', $candles->candles);
 			return $candles;
 		}
 		
