@@ -78,7 +78,7 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 			}
 		}
 
-		public function valid($jsonObject, $verbose=FALSE, $message=FALSE) {
+		public static function valid($jsonObject, $verbose=FALSE, $message=FALSE) {
             //Return boolean false if object has been corrupted or has error messages/codes included
 			if (isset($jsonObject->code)) {
 				if ($verbose && isset($jsonObject->message))
@@ -105,7 +105,7 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 				//Check that we have specified an API key
 				if (! $this->valid($apiKey, TRUE, 'Must provide API key for ' . $baseUrl . ' server.'))
 					return FALSE;
-				
+
 				//Set the API key
 				$this->apiKey  = $apiKey;
 				
@@ -153,7 +153,7 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 		
 		protected function data_decode($data) {
             //Return decoded data
-			if (! $this->valid($data)) {
+			if (! self::valid($data)) {
 				//Return a stdObj with failure codes and message
 				$failure = new stdClass();
 				$failure->code = -1;
@@ -433,7 +433,7 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 			return 'Invalid_instrument__' . $home . '/' . $away;
 		}
 		
-		public function instrument_split($pair) {
+		public static function instrument_split($pair) {
             //Split an instrument into two currencies and return an array of them both
 			$currencies = array();
 			$dividerPos = strpos($pair, '_');
@@ -668,21 +668,21 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 			}
 		}
 		
-		public function expiry($seconds=5) {
+		public static function expiry($seconds=5) {
             //Return the Oanda compatible timestamp of time() + $seconds
 			return time()+$seconds;
 		}
-		public function expiry_min($minutes=5) {
+		public static function expiry_min($minutes=5) {
             //Return the Oanda compatible timestamo of time() + $minutes
-			return $this->expiry($minutes*60);
+			return self::expiry($minutes*60);
 		}
-		public function expiry_hour($hours=1) {
+		public static function expiry_hour($hours=1) {
             //Return the Oanda compatible timestamp of time() + $hours
-			return $this->expiry_min($hours*60);
+			return self::expiry_min($hours*60);
 		}
-		public function expiry_day($days=1) {
+		public static function expiry_day($days=1) {
             //Return the Oanda compatible timestamp of time() + $days
-			return $this->expiry_hour($days*24);
+			return self::expiry_hour($days*24);
 		}
 		
 		//////////////////////////////////////////////////////////////////////////////////
@@ -1028,9 +1028,9 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 			return $candle;
 		}
 		
-		protected function candles_times_to_seconds($candles) {
+		protected static function candles_times_to_seconds($candles) {
             //Convert the times of $candles from microseconds to seconds
-			if ($this->valid($candles))
+			if (self::valid($candles))
 				$candles->candles = array_map('self::candle_time_to_seconds', $candles->candles);
 			return $candles;
 		}
