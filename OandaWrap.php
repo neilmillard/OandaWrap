@@ -603,7 +603,7 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
 			return $this->get($this->transaction_index(), array('count' => $number, 'instrument' => $pair));
 		}
 
-		public function transactions_minid($number=50, $pair='all', $minId){
+		public function transactions_minid($minId, $number=50, $pair='all'){
 			//Return an object with all transactions where id> $minId
 			return $this->get($this->transaction_index(), array('count' => $number, 'instrument' => $pair, 'minId' => $minId));
 		}
