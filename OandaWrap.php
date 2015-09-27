@@ -602,6 +602,11 @@ if (defined('TAVURTH_OANDAWRAP') === FALSE) {
             //Return an object with all transactions (max 50)
 			return $this->get($this->transaction_index(), array('count' => $number, 'instrument' => $pair));
 		}
+
+		public function transactions_minid($number=50, $pair='all', $minId){
+			//Return an object with all transactions where id> $minId
+			return $this->get($this->transaction_index(), array('count' => $number, 'instrument' => $pair, 'minId' => $minId));
+		}
 		
 		public function transactions_types($types, $number=50, $pair='all') {
             //Return a jsonObject with all transactions conforming to one of $types which is an array of strings
